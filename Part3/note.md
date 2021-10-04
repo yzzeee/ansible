@@ -244,3 +244,211 @@ ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
 ssh-copy-id vagrant@192.168.200.101
 ssh-copy-id vagrant@192.168.200.102
 ```
+
+
+```shell
+ssh-keyscan -t rsa 192.168.200.101
+```
+
+* SSH 접속 사용자 변경
+- Ansible 구성 파일
+  remote_user = 사용자명
+- ansible 명령 -u 사용자명 또는 --user 사용자명
+
+* 권한상승
+  기본적으로 become 이 되지 않도록 막아 놓는다.
+  -K, --ask-become-option
+
+### SSH 이외 다른 연결 방법
+
+* 주요 연결 플러그인
+1) docker
+2) kubectl
+3) local : 내가 관리 노드이자 컨트롤플레인인경우 이걸쓰면 빠를 수 있어
+   연결 방식을 local 로 하면 SSH 연결을 따로 하지 않고 프로세스 방식으로 접속한다.
+   SSH 로 인한 성능 저하 방지
+4) network_cli : 일부 네트워크 장비에는 파이썬이 없어! 고럴 때 사용하는거
+5) paramiko_ssh : 파이썬의 ssh 구현체
+6) ssh (기본값)
+7) winrm : 윈도우의 접속방식
+
+* 엔서블 사용법 확인
+공식 홈페이지에 나오지 않은 상세한 정보도 확인 가능
+```shell
+ansible-doc -t
+# t : 플러그인명이라고 하기도 함
+# l : 리스트를 보겠다.
+```
+- conenction 플러그인 목록 보기
+```shell
+ansible-doc -t connection -l
+```
+
+* 호스트마다 접속 방식을 인벤토리 파일에 작성하여 바꿀 수 있댜
+ansible_connection=ssh 가 기본값
+ansible_connection=local 로 하면 local 연결 방식으로 변경됨
+local 방식으로 설정하면 tcp 통신을 하지 않고 바로 프로세스를 띄워서 연결하므로 네트워트 지연이 발생하지 않음
+
+```shell
+192.168.200.1 ansible_connection=local
+
+[mgmt]
+192.168.200.101
+192.168.200.102
+```
+
+## 이번주 학습의 포인트 !! 🚗 모듈 🚗
+```shell
+ansible-doc -t module -l | wc -l
+3387
+```
+와우 모듈이 무려 3000개 이상이다! 
+
+* 모듈 간단히 사용해보기
+```shell
+azwell@azwell-KVM:~$ ansible 192.168.200.101 -m command -a id
+192.168.200.101 | CHANGED | rc=0 >>
+uid=1000(vagrant) gid=1000(vagrant) groups=1000(vagrant)
+```
+command 목적은 원격에다가 명령을 실행해주는 모듈
+-a : argument. 실행할 명령을 써넣는다.
+
+그룹명을 지정하여 해당 그룹에 해당되는 호스트들에 다 실행하게 할 수도 있다!
+```shell
+azwell@azwell-KVM:~$ ansible mgmt -m command -a hostname
+192.168.200.101 | CHANGED | rc=0 >>
+node1
+192.168.200.102 | CHANGED | rc=0 >>
+node2
+```
+
+-b 옵션을 주면 become 을 수행 (기본값 true)
+관리자 권한을 수행한다.
+보안상 기본적으로 사용하지 않는 것을 권장.
+```shell
+$ ansible mgmt -m command -a id -b
+192.168.200.101 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) 그룹들=0(root)
+192.168.200.102 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) 그룹들=0(root)
+```
+
+쌤과 버전차이가 나서 그런지 모르겠지만
+쌤은 에러나고 우리는 sudo 권한이 패스워드 없이 잘 됨
+확인해보니 vagrant 가 sudoers 에 등록 되어 있음
+```shell
+$ sudo -i
+root@node1:~# cd /etc/sudoers.d/
+root@node1:/etc/sudoers.d# ls
+90-cloud-init-users  README  vagrant
+root@node1:/etc/sudoers.d# cat vagrant 
+vagrant ALL=(ALL) NOPASSWD:ALL
+```
+
+```shell
+azwell@azwell-KVM:~$ ansible all -m command -a hostname --become
+192.168.200.1 | FAILED | rc=-1 >>
+Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user (rc: 1, err: chown: invalid user: ‘vagrant’
+}). For information on working around this, see https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
+192.168.200.101 | CHANGED | rc=0 >>
+node1
+192.168.200.102 | CHANGED | rc=0 >>
+node2
+```
+
+## 자주 사용되는 모듈
+* 명령 모듈
+- command
+- script
+- shell
+- raw: 옛날 Cisco IOS 같은 장비들에 쉘이나 파이썬이 없어 그럴 경우 사용
+command 모듈과 shell 모듈은 안사용하는게 좋음
+왜냐? 이거 쓸거면 모하러 엔시블씀..?! > 원하는 모듈이 없는 경우 어쩔 수 없이 사용하고
+
+* 파일 모듈
+- blockline: 텍스트 파일에 블록 삽입/업데이트/삭제
+- copy : 파일 복사
+- lineinfile : 텍스트 파일에 행광리
+- replace : 텍스트 파일의 문자열 관리
+- synchronize : rsync 동기화
+
+* 네트워크 모듈
+- get_url : HTTP/S, FTP 파일 다운로드(wget)
+- uri : 웹 서비스와 상호작용 (curl)
+
+* 패키지 모듈
+- apt
+- dnf
+- yum
+- npm
+- pip
+  ...
+
+* 소스제어 모듈
+- git
+- github_
+- gitlab_
+- bitbucet_
+...
+
+* 시스템 모듈
+- cron
+- filesystem
+- firewalld
+- iptables
+- lvg
+- lvol
+- mount
+- parted
+- ping
+- reboot
+- service
+- ufw
+
+* cron 모듈 예시
+  해당 노드의 cron 서비스를 stop 해보자
+```shell
+azwell@azwell-KVM:~$ ansible 192.168.200.101 -m service -a 'name=cron state=stopped'
+192.168.200.101 | FAILED! => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "msg": "Unable to stop service cron: Failed to stop cron.service: Connection timed out\nSee system logs and 'systemctl status cron.service' for details.\n"
+}
+
+```
+
+```shell
+
+
+```
+
+## 기타 플러그인 확인
+- become
+- cache
+- callback
+- cliconf
+- connenction
+- httpapi
+- inventory
+- netconf
+- lookup
+- shell
+- module
+- strategy
+- vars
+
+ansible 모듈 중에서 free_form이라고 붙은거는 자유양식이라는 거임 딱히 뭐 아규먼트를 의미하는거가 아님
+command 모듈은 default 모듈이라서 안적어도 됨
+-m command 옵션을 주지 않고 -a '명령어' 만 주어도 해당 노드에서 명령이 실행된다!
+
+* 노드 재부팅 때리기!
+```shell
+ansible 192.168.200.101 -a '/sbin/reboot' -b
+```
+또는 reboot 모듈 사용하기
+```shell
+ansible 192.168.200.101 -m reboot -b
+```
+기본으로 600초 (10분)를 대기해서 될때 까지 재부팅을 시도한다.
