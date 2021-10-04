@@ -147,3 +147,100 @@ ansible '192.168.200.*' --list-hosts -i inventory.ini
 ![inventory pattern](../assets/inventory_pattern.png)
 그룹과 그룹을 짬뽕하지 마세요! 의도 하지 않은 일이 일어 날 수 있음!
 필요하면 그룹을 따로 만드세요!
+
+### 구성 파일
+
+ansible의 작동방식을 구성하는 파일이다.
+* Ansible 구성 파일 우선 순위
+1. ANSIBLE_CONFIG 환경 변수
+2. 현재 디렉토리의 ansible.cfg
+3. 홈디렉토리의 ~/.ansible.cfg
+4. /etc/ansible/ansible.cfg
+
+* 현재 설정파일 위치 확인
+```shell
+$ ansible --version
+ansible [core 2.11.5] 
+  config file = /home/jollaman999/vagrant/ansible/ansible.cfg
+```
+```shell
+$ touch /tmp/ansible.cfg
+$ export ANSIBLE_CONFIG=/tmp/ansible.cfg
+```
+* 구성 파일 설정
+```text
+  [default] 섹션
+- inventory : 인벤토리 파일 위치 지정
+- remote_user : SSH 접속할 사용자 이름
+- ask_pass : SSH 비밀번호 물어 볼지 설정 (기본 false / 기본으로 key 인증 방식 사용)
+  [privilege_escalation] # 권한 상승 (su는 보안상 안좋아 ! sudo를 사용!)
+become = true # false가 기본값!
+become_method = sudo
+become_user = root
+become_ask_pass = false # 기본이 false이다! 패스워드 안물어본다.
+패스워드 물어보는거는 자동화의 이점을 살리지 못하니깐 .. 쫌.. 
+```
+
+
+[privilege_escalation]
+- become : 권한 상승 여부 (기본 : false)
+- become_method : 권한 상승 방법 (기본 : sudo)
+- become_user : 권한 상승할 사용자 (기본 : root)
+- become_ask_pass : 권한 상승 방법의 패스워드 요청/입력 여부 (기본 : false)
+
+엔시블은 기본적으로 root 계정을 사용하는데 기본계정을 일반 사용자로 접속 했다면</br>
+관리자 권한 필요한 작업을 해야하는데
+이
+
+관리하는 계정의 계정정보는 보통 동일하게 사용하면 좋을 걸~~ 가능하면!
+
+
+베이그런트로 생성한 vm은 기본적으로 passwd less sudo가 설정되어 /etc/sudoers.d/vagrant 여기 등록됨
+
+
+* `~/.ansible.cfg` 작성
+```shell
+[defaults]
+remote_user = varant
+inventory = ~/inventory.ini
+ask_pass = false
+
+[privilege_Escalation]
+become = false
+become_method = sudo
+become_user = root
+become_ask_pass = false
+```
+
+* `~/inventory.ini` 작성
+```shell
+[mgmt]
+192.168.200.101
+192.168.200.102
+```
+* 현재가장 우선 순위가 높은 config 파일 보여줌
+```shell
+ansible-config view
+```
+
+* ansible에서 설정가능한 모든 설정들을 보여줌
+```shell
+ansible-config list
+```
+
+* 현재 적용된 모든 구성정보 확인
+```shell
+ansible-config dump
+```
+초록이 : 변경 없는 기본값
+
+## 관리노드 연결
+ansible의 제어노드는 기본적으로 openssh로 관리노드에 접근함
+ControlPersist (성능 향상 기능)
+ansible 사용 시 paramiko 어쩌고 할 때가 있는데 ControlPersist 관련된 거 ..
+
+```shell
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
+ssh-copy-id vagrant@192.168.200.101
+ssh-copy-id vagrant@192.168.200.102
+```
