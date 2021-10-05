@@ -219,8 +219,304 @@ distribution 도 체크
 ```
 
 ## 6.3 핸들러
+작업을 실행하고 시스템에 반드시 변경(Change)이 있을 때 별도의 작업을 호출하고 실행
+### 1) 핸들러 예
+```yaml
+---
+- name: Verify apache installation
+  hosts: webservers
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: root
+
+  tasks:
+    - name: Ensure apache is at the latest version
+      yum:
+        name: httpd
+        state: latest
+    - name: Write the apache config file
+      template:
+        src: /src/httpd.j2
+    ....
+```
+apache 포트를 변경하고 그때에만 restart 하고 싶다?! 그럴때 사용쓰
+
+```yaml
+---
+- hosts:
+  tasks:
+  - template:
+      src: a.j2
+      dest: /etc/a.conf
+    notify:
+    - restart service
+
+  handlers:
+  - name: restart service
+    service:
+      name: apache
+      state: restarted
+~                         
+```
+
+* 실습
+```yaml
+---
+- name: Simple Web Deploy
+  hosts: 192.168.200.101
+  vars:
+    contents_file: index.php
+    apache_port: "8080"
+
+  tasks:
+  - name: Install Pacakge for Ubuntu
+    apt:
+      name: apache2, libapache2-mod-php
+      update_cache: true
+      state: present
+    when: ansible_distribution == "Ubuntu"
+  
+  - name: Install Package for CentOS
+    yum:
+      name: httpd, mod-php
+      state: present
+    when: ansible_distribution == "CentOS"
+
+  - name: Copy PHP Contents
+    copy:
+      src: '{{ contents_file }}'
+      dest: '/var/www/html/{{ contents_file }}'
+      backup: true
+
+  - name: Configure Apache Port
+    template:
+      src: ports.conf.j2
+      dest: '/etc/apache2/ports.conf'
+    notify:
+    - Restart Service
+
+  - name: Start Service
+    service:
+      name: apache2
+      state: started
+      enabled: true
+
+  - name: Checking
+    uri:
+      url: "http://192.168.200.101:{{ apache_port }}/{{ contents_file }}"
+    ignore_errors: true
+    
+  handlers:
+  - name: Restart Service
+    service:
+      name: apache2
+      state: restarted
+```
+ignore_errors: 이거 말고 다른 우회 방법을 나중에 해준뎅..
+
+template 모듈이 change 상태일 때 notify 되면서 handler가 동작함
+엔서블에서 핸들러는 대부분 서비스를 재시작하는거 말고는 엄따ㅎㅎ
+다른 용도로 쓰려면 쓰...는데 써...봐...
+
+task가 모두 끈나야만 핸들러가 동작한다!!! 이걸 꼭 기억하즈아!!!
+
+#### (2) 다중 알림 (수신)
+알림을 보낼 notify가 여러개일 때는 listen 키워드를 사용해도 좋다.
+이름을 따로 주고 싶으니께~
+
+작업 알림에 변수를 사용할 수 있지만 원칙적으로 사용하지 않는 것이 좋다.</br>
+왜냐면 알림이 안 갈 우려가 있다.
+
+### 2) 작업과 핸들러의 실행 순서
+* 핸들러는 플레이의 모든 작업이 완료된 후 핸들러 작업을 실행한다.
+* 핸들럭 작업의 순서는 알림을 받은 순서가 아니라 순차적으로 실행된다.
+* 알림을 받은 핸들러만 실행된다.
+* 알림을 2번 이상 받더라도 한번만 실행된다.
+* 정적, 동적 핸들러 관련은 이후에... (to be continue...)
 
 ## 6.4 위임
+저기 위에 예시를 보면 uri 모듈에서 자기가 자신한테 체크를 하고 있다. </br>
+그런데 방화벽 설정 고런거 있으면 저렇게 체크하는게 의미가 있나? </br>
+단순하게 새로운 플레이를 만들어서 할 수도 있지만</br>
+delegate_to 속성을 이용하면 다른 시스템에다가 진행을 시킬 수 있다아.</br>
+그리고 다른 예시로는 로드밸런싱 되고 있던 서버의 포트를 바꾸는 작업을 작성했다 치자</br>
+그러면 포트의 설정을 바꾸는 작업을 하고 로드 밸런서 한테 설정 적용을 위임하는 식으로 사용한다.
 
+다른 노드 또는 로드밸런서에서 명령을 
+대신 샐행하도록 함.
+
+### 1) 위임 할 수 없는 모듈
+- include
+- add_host
+- debug
+
+### 2) 작업의 위임
+
+### 3) 팩트 수집 위임
+```yaml
+...
+setup:
+delegate_to: "{{ item }}"
+delegate_facts: true
+...
+```
+setup 모듈을 사용해서 다른 시스템의 facts 변수들을 가져 올 수 있다.
+단 이렇게 할 경우 delegate_facts: true 를 반드시 지정해 주어야 한다.
 
 ## 6.5 블록
+작업을 하나의 논리적인 작업으로 묶는 기능을 함
+
+task 들을 하나의 블록으로 묶어서 조건문을 걸고
+특정 OS, 특정 배포판 버젼에서만 실행되는 식으로 할 수 있다!
+
+```yaml
+tasks:
+  - name: Multiple tasks..
+  block:
+   - name: Install Apache2
+     apt:
+       name: apache2
+   - name: ~~~
+      apt:
+        name: ~~~
+ when: ansible_facts['distribution'] == 'Ubuntu'
+ become: true
+ ignore_errors: yes
+```
+
+block, rescue, always 섹션이 존재
+
+* rescue
+블록의 작업중 하나라도 실패가 있으면
+rescue 섹션으로 실행됨.
+모두 성공하면 실행 안함.
+
+* always
+성공하던 실패하던 항상 실행
+
+* rescue + always
+실패 있으면 rescue 실행
+항상 실행 할 것은 always 에 써
+
+### 5) 실패처리 - 핸들러
+handler가 달린 테스크가 성공전에 실패한다묜? 그럼 핸들러가 실행되지 않아요!</br>
+그래서 rescue에 meta에 flush_handlers 이거 쓰면은 어뜨케든 핸들러가 실행됨
+이 형태는 자주사용되는 형태임!!! 알아두면 써먹기 좋아
+
+meta 모듈
+meta action : Ansible 의 동작을 로우 레벨에서 제어
+meta: flush_handlers 를 하면 핸들러가 무조건 실행된다.
+많이 사용하니 꼭 알아 두라고 하신다.
+
+명령어 여러개 있긴한데 쎔은 
+flush_handlers 만 주로 써봤다하심!
+
+* rescue 실행됨 task3에서 실패
+```yaml
+- hosts: 192.168.200.101
+  tasks:
+  - block:
+    - name: TASK1
+      debug:
+    - name: TASK2
+      debug:
+    - name: TASK3
+      command: xxx
+    rescue:
+      - name: RESCUE1
+        debug:
+      - name: RESCUE2
+        debug:
+    always:
+    - name: ALWAYS1
+      debug:
+```
+```shell
+PLAY [192.168.200.101] *********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [192.168.200.101]
+
+TASK [TASK1] *******************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [TASK2] *******************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [TASK3] *******************************************************************************************
+fatal: [192.168.200.101]: FAILED! => {"changed": false, "cmd": "xxx", "msg": "[Errno 2] No such file or directory: b'xxx'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [RESCUE1] *****************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [RESCUE2] *****************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [ALWAYS1] *****************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+PLAY RECAP *********************************************************************************************
+192.168.200.101            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=1    ignored=0  
+```
+
+* rescue 실행 안됨 task 모두 성공
+```yaml
+- hosts: 192.168.200.101
+  tasks:
+  - block:
+    - name: TASK1
+      debug:
+    - name: TASK2
+      debug:
+    - name: TASK3
+      debug:
+    rescue:
+      - name: RESCUE1
+        debug:
+      - name: RESCUE2
+        debug:
+    always:
+    - name: ALWAYS1
+      debug:
+```
+```shell
+
+PLAY [192.168.200.101] ***************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [192.168.200.101]
+
+TASK [TASK1] *************************************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [TASK2] *************************************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [TASK3] *************************************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+TASK [ALWAYS1] ***********************************************************************************************************
+ok: [192.168.200.101] => {
+    "msg": "Hello world!"
+}
+
+PLAY RECAP ***************************************************************************************************************
+192.168.200.101            : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
