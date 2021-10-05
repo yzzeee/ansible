@@ -452,3 +452,27 @@ ansible 192.168.200.101 -a '/sbin/reboot' -b
 ansible 192.168.200.101 -m reboot -b
 ```
 기본으로 600초 (10분)를 대기해서 될때 까지 재부팅을 시도한다.
+
+
+* 실습용 ini
+```shell
+192.168.200.1 ansible_connection=local
+
+[mgmt]
+192.168.200.101
+192.168.200.102
+```
+
+* 실습용 cfg
+```shell
+[defaults]
+remote_user = varant
+inventory = ~/inventory.ini
+ask_pass = false
+
+[privilege_Escalation]
+become = false
+become_method = sudo
+become_user = root
+become_ask_pass = false
+```
