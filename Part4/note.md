@@ -228,7 +228,7 @@ index.php 파일 /var/www/html 복사: copy
       name: apache2
       state: started
       enabled: true
-  - name: Checking service
+  - name: service
     uri:
       url: "http://192.168.100.201/index.php"
 ```

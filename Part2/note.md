@@ -147,7 +147,7 @@ sudo apt-get install virtualbox-6.1
 sudo apt install vagrant
 ```
 ---
-### vagrant 사용
+### vagrant 사용(해당 명령어는 Vagrantfile이 있는 위치에서)
 https://app.vagrantup.com/boxes/search
 
 ```shell

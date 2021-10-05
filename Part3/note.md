@@ -169,7 +169,7 @@ $ export ANSIBLE_CONFIG=/tmp/ansible.cfg
 ```
 * 구성 파일 설정
 ```text
-  [default] 섹션
+  [defaults] 섹션
 - inventory : 인벤토리 파일 위치 지정
 - remote_user : SSH 접속할 사용자 이름
 - ask_pass : SSH 비밀번호 물어 볼지 설정 (기본 false / 기본으로 key 인증 방식 사용)
@@ -201,11 +201,11 @@ become_ask_pass = false # 기본이 false이다! 패스워드 안물어본다.
 * `~/.ansible.cfg` 작성
 ```shell
 [defaults]
-remote_user = varant
+remote_user = vagrant
 inventory = ~/inventory.ini
 ask_pass = false
 
-[privilege_Escalation]
+[privilege_escalation]
 become = false
 become_method = sudo
 become_user = root
