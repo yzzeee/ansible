@@ -462,7 +462,51 @@ ansible.cfg
 #### (2) 블록에 태그 추가
 
 ### 2) 태그 사용
+`--tags [tag1, tag2]`: tag1 및 tag2 태그가 있는 작업 만 실행</br>
+`--skip-tags [tag3, tag4]`:  </br>
+`--tags tagged`: 태그 설정된 작업만 실행</br>
+`--tags untagged`: 태그 없는 작업만 실행
+```yaml
+---
+- hosts: 192.168.200.101
+  tasks:
+  - name: task1
+    ping:
+    tags:
+    - prod
+  - name: task2
+    ping:
+    tags:
+    - prod
+    - stage
+  - name: task3
+    ping:
+    tags:
+    - stage
+  - name: task4
+    ping:
+```
+
+* 플레이북의 태그 확인
+`ansible-playbook <yaml 명> --list-tasks`
+
+* 태그 관련 작업 목록 확인
+`ansible-playbook <yaml 명> --tags "configuration,packages` --list-tasks
 
 ### 3) 특수 태그
 ## 7.5 작업 시작 및 단계
 
+### 1) 작업 시작
+실패한 특정 작업 부터 시작 할 수 있다.
+`ansible-playbook <야믈명> --start-at-task="install packages"`
+
+### 2) 작업 단계
+`ansible-playbook <야믈명> --step`
+
+* 책에 없는데 선생님이 알려주시고 싶은거!
+* .ansible.cfg의 [defaults]에다가 해당 옵션
+`retry_files_enabled = true`
+어떤 호스트에서 작업이 실패하였는지 .retry 파일을 생성한다.
+
+`ansible-playbook <야물명> --limit @web.retry`
+실패한 호스트들에만 재시도!! 대규모 작업 시 해당 경로파일에 적힌 호스트만 재작업을 할 수 있다.
