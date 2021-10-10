@@ -134,7 +134,7 @@ shell 요녀석은 모듈이 없을 불가피하게 사용
 ignore_errors: True
 이전 작업이 실패하든 말든~ 다음으로 넘어간다
 
-result is successed 변경 사항 없지만 성공쓰
+result is successed 변경 사항 없지만 성공
 
 - failed: result is failed
 - changes: is changes
@@ -240,7 +240,7 @@ distribution 도 체크
         src: /src/httpd.j2
     ....
 ```
-apache 포트를 변경하고 그때에만 restart 하고 싶다?! 그럴때 사용쓰
+apache 포트를 변경하고 그때에만 restart 하고 싶다?! 그럴때 사용
 
 ```yaml
 ---
@@ -316,7 +316,7 @@ apache 포트를 변경하고 그때에만 restart 하고 싶다?! 그럴때 사
 ignore_errors: 이거 말고 다른 우회 방법을 나중에 해준뎅..
 
 template 모듈이 change 상태일 때 notify 되면서 handler가 동작함
-엔서블에서 핸들러는 대부분 서비스를 재시작하는거 말고는 엄따ㅎㅎ
+Ansible에서 핸들러는 대부분 서비스를 재시작하는거 말고는 엄따ㅎㅎ
 다른 용도로 쓰려면 쓰...는데 써...봐...
 
 task가 모두 끈나야만 핸들러가 동작한다!!! 이걸 꼭 기억하즈아!!!

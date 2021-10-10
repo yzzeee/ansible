@@ -9,7 +9,6 @@
 시나리오: Wordpress와 MySQL 서버를 같은 EC2 인스턴스에 배포한다.
 
 
-
 ### 1) Wordpress 설치 및 구성
 
 #### (1) Wordpress 설치
@@ -554,7 +553,7 @@ resource "aws_eip" "wp_eip" {
 sudo apt update
 sudo apt install ansible -y
 sudo apt install git -y
-sudo ansible-pull -U https://github.com/yzzeee/ansible-wordpress-mysql-pull.git -C master -i inventory.ini web.yml
+sudo ansible-pull -U https://github.com/$USER/ansible-wordpress-mysql-pull.git -C master -i inventory.ini web.yml
 ```
 
 #### (7) 보안그룹 리소스 작성

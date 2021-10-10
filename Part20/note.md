@@ -45,7 +45,7 @@ Terraform will request an API token for app.terraform.io using your browser.
 
 If login is successful, Terraform will store the token in plain text in
 the following file for use by subsequent commands:
-    /home/jollaman999/.terraform.d/credentials.tfrc.json
+    /home/$USER/.terraform.d/credentials.tfrc.json
 
 Do you want to proceed?
   Only 'yes' will be accepted to confirm.
@@ -71,7 +71,7 @@ Generate a token using your browser, and copy-paste it into this prompt.
 
 Terraform will store the token in plain text in the following file
 for use by subsequent commands:
-    /home/jollaman999/.terraform.d/credentials.tfrc.json
+    /home/$USER/.terraform.d/credentials.tfrc.json
 
 Token for app.terraform.io:
   Enter a value: [5941:5991:1008/163507.542562:ERROR:chrome_browser_main_extra_parts_metrics.cc(228)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
@@ -83,7 +83,7 @@ Token for app.terraform.io:
 Token 값 설정이 되면서 아래 처럼 나온다.
 
 ```shell
-Retrieved token for user jollaman999
+Retrieved token for user $USER
 
 
 ---------------------------------------------------------------------------------

@@ -11,8 +11,8 @@
 ### 1) 제어노드
 salt, puppet, chef의 서버와는 결이 다르다.</br>
 요녀석들은 별도의 데이터 베이스의 모든 작업을 저장하기 때문에 서버가 죽으면 문제가 발생하는데</br>
-엔서블은 분산형 아키텍쳐이고 노드에 별도의 데이터를 저장하지 않으므로 </br>
-제어노드의 사망과 .... 상관없이 Ansible 만 설치 되어 있으면 다 해먹을 수 있다!!</br>
+Ansible은 분산형 아키텍쳐이고 노드에 별도의 데이터를 저장하지 않으므로 </br>
+제어노드의 사망과 상관없이 Ansible 만 설치 되어 있으면 다 할수 있음</br>
 엔시블에서는 윈도우 호스트를 지원할 생각 없다고 예전에 얘기했음.</br>
 심경의 변화가 있지 않는 한.. 지원 안할 듯..</br>
 그래도 윈도우가 제어노드가 될 순 없지만 관리 대상은 될 수 있음</br>
@@ -22,7 +22,6 @@ salt, puppet, chef의 서버와는 결이 다르다.</br>
 WinRM (Windows Remote Management) 라는 애를 깔아서 관리가능.
 
 ![WinRM](../assets/winrm.png)
-
 ### 3) 인벤토리
 관리 노드는 반드시 인벤토리에 있어야만 관리할 수 있으며 단순한 텍스트 파일이다.</br>
 `/etc/ansible/hosts` 에서 관리
@@ -58,7 +57,6 @@ YAML 파일로 작성
 ansible-playbook 명령으로 실행</br>
 
 ## 2.3 아키텍쳐
-
 ![architecture](../assets/ansible_architecture.png)
 
 ### Ansible Automation Engine === Ansible Engine === Ansible
@@ -87,7 +85,7 @@ YAML 파일을 사용해서 모듈을 정의함.</br>
 Play : 여러 호스트 들에 대한 role, task 등을 정의</br>
 Playbook : 여러 Play 들의 모음</br>
 
-마이클 디한이 핵심 개발자이구 엔서블 웍스에서 엔서블을 만들었어 그리고 레드헷에 인수됨</br>
+마이클 디한이 핵심 개발자이구 Ansible 웍스에서 Ansible을 만들었어 그리고 레드헷에 인수됨</br>
 마이클 디한이 야구를 좋아해가지고 야구 용어가 많음
 
 
@@ -108,7 +106,6 @@ ansible-x : 버저닝 분리
 
 
 ### 2) Ansible 설치
-
 ```shell
 # sudo apt-add-repository -y -u ppa:ansible/ansible # 책에 나왔는데.. 할 필요없데...
 # sudo apt install -y ansible
@@ -149,6 +146,7 @@ sudo apt-get install virtualbox-6.1
 sudo apt install vagrant
 ```
 ---
+
 ### vagrant 사용(해당 명령어는 Vagrantfile이 있는 위치에서)
 https://app.vagrantup.com/boxes/search
 
@@ -187,7 +185,7 @@ vagrant reload
 ```shell
 vagrant destroy
 ```
-* 노드 2마리를 돌려 보자!!
+* 노드 2개 돌려보자!!
 ```shell
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -227,22 +225,4 @@ Vagrant.configure("2") do |config|
   SHELL
 
 end
-```
----
-아래 내용은 직접 구성한 클러스터를 활용하기 위한 설정임
-### /etc/ansible/hosts 등
-`/etc/hosts/` 에 아래 내용추가
-```shell
-10.10.10.10 master.example.com master
-10.10.10.20 node1.example.com node1
-10.10.10.30 node2.example.com node2
-```
-`/etc/ansible/hosts`
-```shell
-10.10.10.10
-10.10.10.20
-10.10.10.30
-```
-```shell
-ansible all -m ping -k
 ```

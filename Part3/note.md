@@ -161,7 +161,7 @@ ansible의 작동방식을 구성하는 파일이다.
 ```shell
 $ ansible --version
 ansible [core 2.11.5] 
-  config file = /home/jollaman999/vagrant/ansible/ansible.cfg
+  config file = /home/$USER/vagrant/ansible/ansible.cfg
 ```
 ```shell
 $ touch /tmp/ansible.cfg
@@ -275,7 +275,7 @@ ssh-keyscan -t rsa 192.168.200.101
 6) ssh (기본값)</br>
 7) winrm : 윈도우의 접속방식
 
-* 엔서블 사용법 확인</br>
+* Ansible 사용법 확인</br>
 공식 홈페이지에 나오지 않은 상세한 정보도 확인 가능
 ```shell
 ansible-doc -t
