@@ -7,13 +7,32 @@
 변수가 참조하는 사전의 모든값을 따옴표로 감쌈</br>
 ex) '{{ variable }}/foo.cfg'
 
+#### (1) 기본 변수
+- 기본 변수 정의
+```yaml
+remote_install_path: /opt/my_app_config
+```
+- 기본 변수 참조
+```yaml
+template:
+  src: foo.cfg.j2
+  dest: '{{ remote_install_path }}/foo.cfg'
+```
+
 #### (2) 목록 변수
+- 목록 변수 정의
 ```yaml
 region:
-- north
-- east
-- south
+  - north
+  - east
+  - south
 ```
+
+- 목록 변수 참조
+```yaml
+region: "{{ region[0] }}"
+```
+값은 'northeast' 다
 
 #### (3) 사전 변수
 * 사전 변수 정의
@@ -30,16 +49,20 @@ foo.filed1
 ```
 점표기법은 모듈에 따라 일부 키가 Python 에 정의된 속성 및 메서드와 충돌날 위험이 있음
 
-#### (4) 사전 변수
+#### (4) 등록 변수
 * 등록 변수 사용
   반환 값을 참조하는 유일한 방법
-
 ```yaml
 - hosts: web_Servers
   tasks:
     - name: Run a shell command and register its outputas a variable
       shell: /usr/bin/foo
       register: foo_result
+      ignore_errors: true
+
+    - name: Run a shell comand using output of the previous task
+      shell: /usr/bin/bar
+      when: foo_result.rc == 5
 ```
 /usr/bin/foo 의 리턴 value 가 foo_result 변수에 저장됨
 
@@ -237,6 +260,22 @@ PLAY RECAP**********************************************************************
 
 ```
 
+### 5) 변수의 업위
+변수를 어디에 저장하느냐에 따라 변수를 참조할 수 있는 범위가 한정됨,
+
+- 전역/플레이북: 구성파일, 환경변수(ansible_*), audfudwnf dhqtus
+- 호스트 그룹: 인벤토리의 그룹 변수
+- 호스트: 인벤토리의 호스트 변수
+- 플레이: vars, vars_files, vars_prompt 등 지시어, 역할의 기본 변수 (defaults) 및 변수 (vars)
+- 블록
+- 작업
+
+### 6) 변수 정의 위치에 대한 팁
+- group_vars/all: 모든 호스트에 공통적으로 적용할 변수 설정
+- group_vars/<specific_group>: 특정 호스트 그룹에 공통저긍로 적용
+- host_vars/<host>: 특정 호스트에만 적용할 변수 설정
+- 특정 작업에만 적용할 변수 설정
+
 ## 5.2  조회
 * 플러그인 목록
 ```shell
@@ -251,6 +290,11 @@ lookup 플러그인은 모듈이 아니다. !
     auth_key: "{{ 'lookup('file', '/home/devops/.ssh/id_rsa.pub') }}"
 
   tasks:
+    - name: set authrized keys
+      authorized_key:
+        user: devops
+        state: present
+        key: "{{ auth_key }}"
 ```
 
 ## 5.3 프롬프트
@@ -281,7 +325,7 @@ user 모듈은 사용자 생성 삭제하는 모듈</br>
 name 속성은 필수이며 password 는 Encrypted 된 값이 들어가야 한다.
 
 ## 5.4 필터
-### 1) 기본 제공
+### 1) 기본값 제공
 * 필터</br>
   `{{ 변수 | default('DEFAULT') }}`
 * 출력</br>
