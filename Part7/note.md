@@ -55,7 +55,7 @@
         state: restarted
 ```
 
-contents_file, apache_port 당 는 해당 플레이에서만 유효하다.
+contents_file, apache_port 당 는 해당 플레이에서만 유효하다.</br>
 아래 또 다른 플레이를 작성할 경우 변수 참조 안됨.
 
 # 7. 작업 제어 - 고급

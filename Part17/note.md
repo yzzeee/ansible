@@ -4,7 +4,7 @@
 https://cloudinit.readthedocs.io/en/latest/
 
 대부분의 클라우드 가상화 솔루션 배포 이미지에</br>
-cloud-init 이라는 소프트웨어가 포함되어 있다.
+cloud-init 이라는 소프트웨어가 포함되어 있다.</br>
 시스템 구성 관리를 할 수 있다.
 
 🚗🚗 234쪽 1) 실습
@@ -104,7 +104,7 @@ self 는 자기 자신을 의미 (aws_instance.web)
 
 ## 17.5
 
-엔시블 풀모드!!
+Ansible 풀모드!!
 `ansible-pull -U https://github.com/c1t1d0s7/ansible-pull-example.git -C main -i hosts.ini playbook.yaml`
 
 기존의 예제에서 SSH 키를 등록하고 aws 인스턴스에 ansible 을 설치하여 playbook.yaml 을 실행하도록 변경.

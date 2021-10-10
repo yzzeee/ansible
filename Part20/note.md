@@ -33,7 +33,7 @@ terraform {
 
 ## 20.3 Terraform Cloud를 이용한 원격 백애드 구성
 
-https://app.terraform.io/
+https://app.terraform.io/</br>
 위 사이트에 가서 Terraform Cloud 에 가입한다.
 
 가입 완료후 이메일 인증하고</br>
@@ -53,7 +53,7 @@ Do you want to proceed?
   Enter a value: yes
 ```
 
-yes 를 치고 나면 브라우저가 뜨면서 Token 생성하는 페이지로 접속된다.
+yes 를 치고 나면 브라우저가 뜨면서 Token 생성하는 페이지로 접속된다.</br>
 Token 생성하고 터미널에 붙여넣기한다.
 
 ```shell

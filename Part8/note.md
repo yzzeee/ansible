@@ -1,5 +1,5 @@
 # 8. 아티팩트 재사용 - 파일
-* 엔시블에서 아티팩트란? 플레이북, 플레이, 테스크, 변수, 역할 같은 것들
+* Ansible에서 아티팩트란? 플레이북, 플레이, 테스크, 변수, 역할 같은 것들
 
 하나의 큰 파일로 playbook을 작성할 수 있지만, 재사용성을 위해서 별도의 파일로 분리한다.
 
@@ -168,8 +168,8 @@ azwell@azwell-KVM:~/test/artifact$ tree
 #### (2) 호스트 변수
 
 ![host_vars.png](../assets/host_vars.png)
-Ansible 은 현재 디렉토리에 다음과 같은 디렉토리를 참고함
-group_vars : 그룹 변수
+Ansible 은 현재 디렉토리에 다음과 같은 디렉토리를 참고함</br>
+group_vars : 그룹 변수</br>
 host_vars : 호스트 변수
 
 ## 8.2 작업 재사용
