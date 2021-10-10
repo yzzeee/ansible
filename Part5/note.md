@@ -131,7 +131,7 @@ ansible-playbook 명령에 --extra-vars 또는 -e 옵션을 사용하여 변수 
   - debug:
       var: msg # 값으로 변수 이름을 받는다. (참조가 아님!!)
   - debug:
-      msg: '{{ msg }}'ㅑ # 변수의 값을 참조
+      msg: '{{ msg }}' # 변수의 값을 참조
 ```
 
 인벤토리에서 vars 를 지정핻 playbook 이 우선순위가 더 높기 떄문에

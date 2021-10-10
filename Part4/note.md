@@ -166,7 +166,7 @@ ansible 192.168.200.101 -m copy -a
 플레이북 실행은 ansible-playbook 명령으로 실행한다.
 
 ```shell
-ansible-playbook test.yaml
+ansible-playbook main.yaml
 ```
 
 test.yaml
@@ -200,7 +200,7 @@ ansible-playbook <야믈명> --check
 
 - 특정 호스트로 제한하여 실행하기
 ```shell
-ansible-playbook test.yaml --check --diff --limit 192.168.200.101
+ansible-playbook main.yaml --check --diff --limit 192.168.200.101
 ```
 --limit의 경우 task를 실행할 때 특정 노드만 선택하여 작업 가능하다.
 
@@ -209,9 +209,9 @@ ansible-playbook test.yaml --check --diff --limit 192.168.200.101
 ansible-playbook <야믈명> --list-tasks
 ```
 ```shell
-$ ansible-playbook test.yaml --list-tasks
+$ ansible-playbook main.yaml --list-tasks
 
-playbook: test.yaml
+playbook: main.yaml
 
   play #1 (mgmt): mgmt	TAGS: []
     tasks:

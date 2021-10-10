@@ -105,7 +105,7 @@ ansible-playbook encrypt.yaml
 ansible-vault encrypt_string --vault-password-file vault_pass 'foobar' --name the_secret 'abc'
 ```
 
-* vi test.yaml
+* vi valut_exec.yaml
 ```yaml
 - hosts: 192.168.200.101
   var_files: vars.yaml
@@ -128,11 +128,11 @@ cd test/vault/
 echo "P@ssw0rd" > passdev
 echo "123" > passprod
 chmod 400 passdev passprod
-vi test.yml
+vi valut_exec.yml
 ansible-vault create taskdev.yml --vault-password-file=passdev
 vi taskdev.yaml
 ansible-vault create taskprod.yml --vault-password-file=passprod
-ansible-playbook test.yml --vault-password-file=passprod --vault-password-file=passdev
+ansible-playbook valut_exec.yml --vault-password-file=passprod --vault-password-file=passdev
 ```
 --vault-password-file 이거 옵션 원래 여러개 안 됐었는데 사용자들의 원성으로 --vault-id 생겼고 그 이후에 file에도 적용
 
@@ -183,7 +183,7 @@ Decryption successful # 레이블은 안맞아도 패스워드만 맞으면 성�
 
 ```shell
 azwell@azwell-KVM:~/test/vault$ rm taskdev.yml taskprod.yml 
-azwell@azwell-KVM:~/test/vault$ cat test.yml 
+azwell@azwell-KVM:~/test/vault$ cat valut_exec.yml 
 - hosts: 192.168.200.101
   tasks:
   - import_tasks: taskdev.yml
@@ -198,7 +198,7 @@ $ANSIBLE_VAULT;1.2;AES256;devuser
 3061656330343665620a653564346363306265303762626530313934333935366665383933316334
 3438
 azwell@azwell-KVM:~/test/vault$ ansible-vault create taskprod.yml --vault-id=produser@passprod
-azwell@azwell-KVM:~/test/vault$ ansible-playbook test.yml --vault-id=devuser@passdev --vault-id=devprod@passprod
+azwell@azwell-KVM:~/test/vault$ ansible-playbook valut_exec.yml --vault-id=devuser@passdev --vault-id=devprod@passprod
 
 PLAY [192.168.200.101] ************************************************************
 
