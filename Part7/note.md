@@ -501,15 +501,15 @@ ansible.cfg
 
 ### 1) 작업 시작
 실패한 특정 작업 부터 시작 할 수 있다.
-`ansible-playbook <야믈명> --start-at-task="install packages"`
+`ansible-playbook <YAML 파일명> --start-at-task="install packages"`
 
 ### 2) 작업 단계
-`ansible-playbook <야믈명> --step`
+`ansible-playbook <YAML 파일명> --step`
 
 * 책에 없는데 선생님이 알려주시고 싶은거!
 * .ansible.cfg의 [defaults]에다가 해당 옵션
 `retry_files_enabled = true`
 어떤 호스트에서 작업이 실패하였는지 .retry 파일을 생성한다.
 
-`ansible-playbook <야물명> --limit @web.retry`
+`ansible-playbook <YAML 파일명> --limit @web.retry`
 실패한 호스트들에만 재시도!! 대규모 작업 시 해당 경로파일에 적힌 호스트만 재작업을 할 수 있다.

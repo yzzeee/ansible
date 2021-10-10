@@ -184,15 +184,15 @@ test.yaml
 
 ### 1) 플레이북 실행
 ```shell
-ansible-playbook <야믈명>
+ansible-playbook <YAML 파일명>
 ```
 ### 2) 구문 체크
 ```shell
-ansible-playbook <야믈명> --syntex-check
+ansible-playbook <YAML 파일명> --syntex-check
 ```
 ### 3) 체크 모드
 ```shell
-ansible-playbook <야믈명> --check
+ansible-playbook <YAML 파일명> --check
 ```
 ### 4) 차이점 모드
 차이점 모드의 경우 많은 양의 출력이 생성될 수 있기 떄문에</br>
@@ -206,7 +206,7 @@ ansible-playbook main.yaml --check --diff --limit 192.168.200.101
 
 ### 5) 작업 목록 확인
 ```shell
-ansible-playbook <야믈명> --list-tasks
+ansible-playbook <YAML 파일명> --list-tasks
 ```
 ```shell
 $ ansible-playbook main.yaml --list-tasks
@@ -221,7 +221,7 @@ playbook: main.yaml
 
 ### 6) 호스트 목룍 확인
 ```shell
-ansible-playbook <야믈명> --list-hosts
+ansible-playbook <YAML 파일명> --list-hosts
 ```
 
 ### 7) Ansible Lint
@@ -273,8 +273,8 @@ ansible-lint <야믈이름>
 선생님은 명령어로만 become 옵션 주신다함!
 
 ```shell
-ansible-playbook <야물명> --syntax-check
-ansible-playbook <야물명> -b # -b --become 옵션으로 권한 상승하여 실행한다.
+ansible-playbook <YAML 파일명> --syntax-check
+ansible-playbook <YAML 파일명> -b # -b --become 옵션으로 권한 상승하여 실행한다.
 ```
 
 관습적으로 hosts와 tasks 사이에는 줄바꿈을 한다.
