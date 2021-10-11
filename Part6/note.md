@@ -1,5 +1,5 @@
 # 작업 제어 - 기본
- 
+
 ## 6.1 반복문
 ansible 2.4 까지는 with_* 사용하였었는데<br/>
 ansible 2.5 부터 loop를 추가함
@@ -92,7 +92,7 @@ bob 의 providerdb<br/>
 ### 4) 인벤토리 반복
 ```yaml
 - debug:
-    <%raw%>msg: "{{ }}"<%endraw%>
+    {% raw %}msg: "{{ }}"{% endraw %}
 
 ```
 인벤토리 호스트 쿼리하여 사용 가능
@@ -104,7 +104,7 @@ bob 의 providerdb<br/>
 - debug:
     msg: hello world
   when: variable is test_name
-  ```
+```
 
 
 ### 1) 테스트
