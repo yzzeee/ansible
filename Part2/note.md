@@ -187,9 +187,10 @@ vagrant reload
 vagrant destroy
 ```
 * 노드 2개 돌려보자!!
+{% raw %}
 ```shell
-{% raw %}# -*- mode: ruby -*-{% endraw %}
-{% raw %}# vi: set ft=ruby :{% endraw %}
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
 
@@ -227,3 +228,4 @@ Vagrant.configure("2") do |config|
 
 end
 ```
+{% endraw %}
