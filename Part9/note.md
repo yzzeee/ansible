@@ -21,7 +21,7 @@ defaults 디렉토리 하위에는 거의 변하지 않는 기본 변수들을 �
 
 roles가 기본 디렉터리이다.
 * 가장 중요한 것은 tasks
-tasks 폴더 내의 main.yml, main.yaml, main 파일을 찾는다.</br>
+tasks 폴더 내의 main.yml, main.yaml, main 파일을 찾는다.<br/>
 default와 vars에 모두 변수가 저장되는데 vars의 우선순위가 높다.
 * files
   copy, file, patch 와 같은 파일 관련 디렉터리가 src/ 기본경로로 지정된다.
@@ -250,17 +250,17 @@ web.yml
 ```
 
 ## 9.2 Ansible Galaxy
-역할을 만들어서 공유가 가능</br>
+역할을 만들어서 공유가 가능<br/>
 
 ### 1) Ansible 컨텐츠
 * 역할
 
 * 컬랙션
-Ansible 2.8 부터 추가된 새로운 패키징 형식</br>
+Ansible 2.8 부터 추가된 새로운 패키징 형식<br/>
 플레이북, 역할, 모듈, 플러그인을 하나의 아티팩트로 패키징함
 
 * 플레이북 번들(APB: Ansible Playbook Bundle)
-플레이북, 메타데이터 파일로 구성된 경량 애플리케이션 번들로</br>
+플레이북, 메타데이터 파일로 구성된 경량 애플리케이션 번들로<br/>
 OpenShift Origin 클러스터에 애플리케이션을 배포하기 위한 번들
 
 ### 2) ansible-galaxy 명령

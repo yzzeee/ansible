@@ -38,7 +38,7 @@ include_vars 는 모듈이라서 task 안에 써야함
 
 * 기존에 하던 실습의 변수를 vars_files로 설정
 
-vars_files : 변수들을 모아 놓은 파일.</br>
+vars_files : 변수들을 모아 놓은 파일.<br/>
 vars 를 사용하는것 보다 유용하게 사용할 수 있다.
 
 
@@ -168,8 +168,8 @@ azwell@azwell-KVM:~/test/artifact$ tree
 #### (2) 호스트 변수
 
 ![host_vars.png](../assets/host_vars.png)
-Ansible 은 현재 디렉토리에 다음과 같은 디렉토리를 참고함</br>
-group_vars : 그룹 변수</br>
+Ansible 은 현재 디렉토리에 다음과 같은 디렉토리를 참고함<br/>
+group_vars : 그룹 변수<br/>
 host_vars : 호스트 변수
 
 ## 8.2 작업 재사용
@@ -197,8 +197,8 @@ host_vars : 호스트 변수
 
 include_tasks 모듈과 import_tasks 모듈 비교
 
-`ansible-playbook <야뮬명> --list-tasks` 시 </br> 
-include_tasks는 동적, import_tasks는 정적으로 가져온다.</br>
+`ansible-playbook <야뮬명> --list-tasks` 시 <br/> 
+include_tasks는 동적, import_tasks는 정적으로 가져온다.<br/>
 import의 경우 미리 사전에 playbook을 처리한다.
 
 |          항목          |          include          |          import          |

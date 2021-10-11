@@ -121,7 +121,7 @@ ansible-vault encrypt_string --vault-password-file vault_pass 'foobar' --name th
 
 * 실습
 
-~/test/vault 폴더에서 실습 </br>
+~/test/vault 폴더에서 실습 <br/>
 
 ```shell
 cd test/vault/
@@ -431,7 +431,7 @@ META: ran handlers
 
 ![ansible_cfg.png](../assets/ansible_cfg.png)
 
-SSH 세션 줄이고 성능 높이기</br>
+SSH 세션 줄이고 성능 높이기<br/>
 대환경에서 작업할 때는 이점있데 조금 할땐 그닥 ^^
 ```config
 [ssh_connection]

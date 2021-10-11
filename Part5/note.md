@@ -4,7 +4,7 @@
 ### 2) 변수 정의 및 참조
 변수를 참조할떄는 반드시 이중 중괄호를 써야함
 
-변수가 참조하는 사전의 모든값을 따옴표로 감쌈</br>
+변수가 참조하는 사전의 모든값을 따옴표로 감쌈<br/>
 ex) '{{ variable }}/foo.cfg'
 
 #### (1) 기본 변수
@@ -68,7 +68,7 @@ foo.filed1
 
 
 ### 3) 변수 정의 위치
-Ansible에서 변수를 정의할 수 있는 곳만 30군데가 됨..</br>
+Ansible에서 변수를 정의할 수 있는 곳만 30군데가 됨..<br/>
 어떻게 기억해..! 그래도 우리가 변수가 미치는 범위를 기억해야해
 * 인벤토리
 * 플레이북, 플레이, 작업
@@ -76,7 +76,7 @@ Ansible에서 변수를 정의할 수 있는 곳만 30군데가 됨..</br>
 * 역할
 * 명령의 -e 옵션
 
-인벤토리와 플레이북에 가장 많이 설정함</br>
+인벤토리와 플레이북에 가장 많이 설정함<br/>
 인벤토리에 선언하는 건 호스트나 그룹을 따라감
 
 #### (1) 인벤토리 - 호스트 변수
@@ -321,17 +321,17 @@ vars_prompt 로 키워드에 변수를 선언시 사용자에게 입력값을 �
         password: "{{ hashed_password }}"
 ```
 
-user 모듈은 사용자 생성 삭제하는 모듈</br>
+user 모듈은 사용자 생성 삭제하는 모듈<br/>
 name 속성은 필수이며 password 는 Encrypted 된 값이 들어가야 한다.
 
 ## 5.4 필터
 ### 1) 기본값 제공
-* 필터</br>
+* 필터<br/>
   {% raw %}`{{ 변수 | default('DEFAULT') }}`{%endraw %}
-* 출력</br>
+* 출력<br/>
   `DEFAULT`
 ### 2) 필수값 정의
-* 필터</br>
+* 필터<br/>
   mandatory : 이 변수에는 필수 값이 들어가야 한다!!하고 지정
   {% raw %}`{{ variable | mandatory }}`{%endraw %}
 
@@ -342,7 +342,7 @@ name 속성은 필수이며 password 는 Encrypted 된 값이 들어가야 한�
 
 ### 5) IP 주소 필터
 {% raw %}`{{ '192.168.2.1/24' | ipaddr('address') }}`{%endraw %}
-address 값만 출력된다.</br>
+address 값만 출력된다.<br/>
 192.168.2.1
 
 {% raw %}`{{ 'test1' | hash('sha1') }}`{%endraw %}
@@ -368,7 +368,7 @@ salt 값 지정
 
 ## 5.5 팩트 변수
 ### 1) Ad-hoc 명령에서 팩트 변수 확인
-Playbook 이 실행되면 setup 모듈이 실행되면서</br>
+Playbook 이 실행되면 setup 모듈이 실행되면서<br/>
 시스템 정보들이 JSON 형태로 변수 저장됨.
 
 아래 명령어 치면 확인 해 볼 수 있음.
@@ -399,7 +399,7 @@ ansible <아이피> -m setup > factor.txt
 주로 jinja를 사용한다! .j2, .jinja2 확장자~
 
 
-~/ansible.cfg 의 defaults 섹션에 아래 내용 추가하면</br>
+~/ansible.cfg 의 defaults 섹션에 아래 내용 추가하면<br/>
 기본 ansible_managed 의 주석을 바꿀수 있음.
 ```
 ansible_managed = Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host} {file}
@@ -421,7 +421,7 @@ ansible_managed = Ansible managed: {file} modified on %Y-%m-%d %H:%M:%s <- 이�
 /etc/apache2/ports.conf
 파일의 Listen 포트를 변수처리하고 Ansible이 관리하는 템플릿 파일로 만들어 보자!
 
-- 개인 실습 1</br>
+- 개인 실습 1<br/>
 먼저 apache2 설정 파일들을 가져오자
 ```shell
 scp vagrant@192.168.200.101:/etc/apache2/ports.conf .

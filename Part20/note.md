@@ -33,10 +33,10 @@ terraform {
 
 ## 20.3 Terraform Cloud를 이용한 원격 백애드 구성
 
-https://app.terraform.io/</br>
+https://app.terraform.io/<br/>
 위 사이트에 가서 Terraform Cloud 에 가입한다.
 
-가입 완료후 이메일 인증하고</br>
+가입 완료후 이메일 인증하고<br/>
 터미널 띄워서 아래 명령을 실행한다.
 
 ```shell
@@ -53,7 +53,7 @@ Do you want to proceed?
   Enter a value: yes
 ```
 
-yes 를 치고 나면 브라우저가 뜨면서 Token 생성하는 페이지로 접속된다.</br>
+yes 를 치고 나면 브라우저가 뜨면서 Token 생성하는 페이지로 접속된다.<br/>
 Token 생성하고 터미널에 붙여넣기한다.
 
 ```shell
@@ -79,7 +79,7 @@ Token for app.terraform.io:
 [5941:5991:1008/163507.542598:ERROR:chrome_browser_main_extra_parts_metrics.cc(234)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
 [5941:5991:1008/163507.573195:ERROR:chrome_browser_main_extra_parts_metrics.cc(238)] crbug.com/1216328: Checking default browser status ended.
 ```
-막 뭐가 나와있어서 이상하긴 한데 그냥 붙여 넣기 하고 엔터 하면</br>
+막 뭐가 나와있어서 이상하긴 한데 그냥 붙여 넣기 하고 엔터 하면<br/>
 Token 값 설정이 되면서 아래 처럼 나온다.
 
 ```shell
@@ -112,7 +112,7 @@ Retrieved token for user $USER
    $ cd tfc-getting-started
    $ scripts/setup.sh
 ```
-provider.tf에 이거 넣어주면 해당 워크스페이스에 terraform.tfstate파일이 저장됨</br>
+provider.tf에 이거 넣어주면 해당 워크스페이스에 terraform.tfstate파일이 저장됨<br/>
 그런데,, variables는 저장 안되므로 따로 저장 관리해주어야함
 ```shell
 terraform {

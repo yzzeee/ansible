@@ -3,8 +3,8 @@
 ## 17.1 Cloud-init 구성 관리
 https://cloudinit.readthedocs.io/en/latest/
 
-대부분의 클라우드 가상화 솔루션 배포 이미지에</br>
-cloud-init 이라는 소프트웨어가 포함되어 있다.</br>
+대부분의 클라우드 가상화 솔루션 배포 이미지에<br/>
+cloud-init 이라는 소프트웨어가 포함되어 있다.<br/>
 시스템 구성 관리를 할 수 있다.
 
 🚗🚗 234쪽 1) 실습
@@ -71,7 +71,7 @@ resource "aws_eip" "my_eip" {
 
 ## 17.3 프로비저너
 
-cloud-init을 주로 사용하고 terraform의 프로비저너는 최후의 수단으로만 사용한다.</br>
+cloud-init을 주로 사용하고 terraform의 프로비저너는 최후의 수단으로만 사용한다.<br/>
 왜냐하면 ssh 접속 되므로 보안상 그렇다.
 
 - 일반 프로비저너

@@ -4,7 +4,7 @@
 플레이북은 yaml(yaml.org) 형식을 따른다(Ain't Markup Language)
 
 ### 1) Yaml 기본
-Ansible 플레이북의 Yaml 파일은 항상 목록으로 시작되며 </br>
+Ansible 플레이북의 Yaml 파일은 항상 목록으로 시작되며 <br/>
 목록의 각 항목은 해시, 사전이라는 키/값 쌍을 가지고 있음
 
 선택적으로 Yaml 파일의 시작은 --- 끝은 ...으로 나타냄
@@ -70,7 +70,7 @@ fold_newlines: >
 ```
 
 ### 8) 주의사항
-value에 : 가 들어가는 경우는 작은 따옴표나 큰 따옴표로 인용부호를 사용</br>
+value에 : 가 들어가는 경우는 작은 따옴표나 큰 따옴표로 인용부호를 사용<br/>
 버전을 지정하는 경우 소수값이나 정수값이 될 수 있으므로 인용부호를 써서 문자열로 사용한다. ex) "1.0"
 
 ## 4.2 플레이북 기본
@@ -195,7 +195,7 @@ ansible-playbook <YAML 파일명> --syntex-check
 ansible-playbook <YAML 파일명> --check
 ```
 ### 4) 차이점 모드
-차이점 모드의 경우 많은 양의 출력이 생성될 수 있기 떄문에</br>
+차이점 모드의 경우 많은 양의 출력이 생성될 수 있기 떄문에<br/>
 특정 호스트로 제한하여 실행한다.
 
 - 특정 호스트로 제한하여 실행하기
@@ -230,17 +230,17 @@ ansible-lint <야믈이름>
 ```
 
 ### 실습
-- host: 192.168.200.101</br>
-- apt 패키지 설치: apache2, php</br>
-- index.php 파일 /var/www/html 복사: copy</br>
+- host: 192.168.200.101<br/>
+- apt 패키지 설치: apache2, php<br/>
+- index.php 파일 /var/www/html 복사: copy<br/>
 ```php
 <?php
     phpinfo();
 ?>
 ```
-서비스 실행: service</br>
+서비스 실행: service<br/>
 접근 확인: uri
-</br>
+<br/>
 * 선생님 풀이
 ```yaml
 ---
@@ -268,8 +268,8 @@ ansible-lint <야믈이름>
       url: "http://192.168.100.201/index.php"
 ```
 
-사람들이 특정 작업에만 원칙적으로 하는건 맞긴한데</br>
-귀찮아서 명령어 쓸 때 하든지 플레이 전체에 하든지 함</br>
+사람들이 특정 작업에만 원칙적으로 하는건 맞긴한데<br/>
+귀찮아서 명령어 쓸 때 하든지 플레이 전체에 하든지 함<br/>
 선생님은 명령어로만 become 옵션 주신다함!
 
 ```shell
