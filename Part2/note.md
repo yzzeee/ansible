@@ -188,8 +188,8 @@ vagrant destroy
 ```
 * 노드 2개 돌려보자!!
 ```shell
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+{% raw %}# -*- mode: ruby -*-{% endraw %}
+{% raw %}# vi: set ft=ruby :{% endraw %}
 
 Vagrant.configure("2") do |config|
 
