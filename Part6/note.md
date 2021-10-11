@@ -92,7 +92,7 @@ bob 의 providerdb<br/>
 ### 4) 인벤토리 반복
 ```yaml
 - debug:
-    msg: "{{ }}"
+    <%raw%>msg: "{{ }}"<%endraw%>
 
 ```
 인벤토리 호스트 쿼리하여 사용 가능
