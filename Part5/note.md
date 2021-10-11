@@ -287,7 +287,7 @@ lookup 플러그인은 모듈이 아님
 ```yaml
 - hosts: databases
   vars:
-    auth_key: "{{ 'lookup('file', '/home/devops/.ssh/id_rsa.pub') }}"
+    {% raw %}auth_key: "{{ 'lookup('file', '/home/devops/.ssh/id_rsa.pub') }}"{%endraw %}
 
   tasks:
     - name: set authrized keys
@@ -327,13 +327,13 @@ name 속성은 필수이며 password 는 Encrypted 된 값이 들어가야 한�
 ## 5.4 필터
 ### 1) 기본값 제공
 * 필터</br>
-  `{{ 변수 | default('DEFAULT') }}`
+  {% raw %}`{{ 변수 | default('DEFAULT') }}`{%endraw %}
 * 출력</br>
   `DEFAULT`
 ### 2) 필수값 정의
 * 필터</br>
   mandatory : 이 변수에는 필수 값이 들어가야 한다!!하고 지정
-  `{{ variable | mandatory }}`
+  {% raw %}`{{ variable | mandatory }}`{%endraw %}
 
 ### 3) 사전 - 목록 데이터 변환
 
@@ -341,21 +341,21 @@ name 속성은 필수이며 password 는 Encrypted 된 값이 들어가야 한�
 ### 4) JSON 퀴리
 
 ### 5) IP 주소 필터
-`{{ '192.168.2.1/24' | ipaddr('address') }}`
+{% raw %}`{{ '192.168.2.1/24' | ipaddr('address') }}`{%endraw %}
 address 값만 출력된다.</br>
 192.168.2.1
 
-`{{ 'test1' | hash('sha1') }}`
+{% raw %}`{{ 'test1' | hash('sha1') }}`{%endraw %}
 
 salt 값 지정
-`{{ 'test1' | password_hash('sha256', 'myscretsalt') }}`
+{% raw %}`{{ 'test1' | password_hash('sha256', 'myscretsalt') }}`{%endraw %}
 
 ### 7) ⭐⭐⭐ 주석 필터
 * 필터
-  `{{ "Plain style (default)" | comment }}`
+  {% raw %}`{{ "Plain style (default)" | comment }}`{%endraw %}
 
 * Ansible 필터 주석 사용
-  `{{ ansible_manages | comment }}`
+  {% raw %}`{{ ansible_manages | comment }}`{%endraw %}
 
 ### 8) URL 필터
 
